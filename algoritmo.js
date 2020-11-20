@@ -2,30 +2,98 @@
 //Polinomio digitado por el usuario
 let polynomial;
 
-//Expresiones del polinomio ingresado separadas por "+"
-let positiveTerms = [];
-
 //Términos en orden, separados por "+" y "-"
 let terms = [];
 //Información de cada término en orden
-let symbols = [];
 let exponents = [];
 let coeficients = [];
+
+//Arreglo de información del polinomio derivado
+let derivedPolynomial = "Tu polinomio es ";
 
 //Cantidad de términos
 let termAmount;
 
-//Información ordenada con symbols, coeficients & exponents
-let ordered = [];
 
 function derivatePolynomial(polynomial) {
     
-    //Separar cada término y obtener su signo (+ o -)
+    //Separar cada término
     separateTerms(polynomial);
 
-    termAmount = terms.length;
+    //Separar el coeficiente y el exponente dentro de cada término
+    coeficientsAndExponents(terms);
 
      for(i= 0; i < termAmount; i++){
+
+        let derivedCoeficient = (coeficients[i]*exponents[i]);
+        let derivedExponent = exponents[i]-1;
+
+        if (derivedCoeficient != 0){
+
+            switch (derivedExponent) {
+                case 0:
+                    derivedPolynomial += derivedCoeficient.toString();
+                  break;
+                case 1:
+                    derivedPolynomial += derivedCoeficient+"x";
+                  break;
+                default:
+                    derivedPolynomial += derivedCoeficient+"x^"+derivedExponent;
+              }
+
+        }
+
+     }
+
+    //Borramos todo
+    exponents = [];
+    terms = [];
+    coeficients = [];
+
+    return derivedPolynomial;
+
+  }
+
+//Separa los términos
+function separateTerms(polynomialFunction){
+
+    //Expresiones del polinomio ingresado separadas por "+"
+    let positiveExpresion = [];
+
+    //Expresiones separadas por "+"
+    positiveExpresion = polynomialFunction.split("+");
+
+    //Evaluamos cada expresión separada por "+", para separarla también por un "-" si lo tiene
+    for (var i = 0; i < positiveExpresion.length; i++) {
+        
+        //Expresiones separadas por "-"
+        expresion = positiveExpresion[i].split("-");
+
+        for (var u = 0; u < expresion.length; u++) {
+            
+            //Verificamos que no se haya entregado un término vacío 
+            if(expresion[u] != ""){
+
+                //Información de si el término es positivo o negativo
+                if(u == 0){
+                    //Si u=0 es porque el término fue separado antes por "+"
+                    terms.push(expresion[u]);
+
+                } else {
+                    //Sino, apenas fue separado por "-"
+                    terms.push("-"+expresion[u]);
+                }
+            }
+        }
+    }
+}
+
+//Separa la infomación de los términos, entre coeficientes y exponentes.
+function coeficientsAndExponents(terms){
+    
+    termAmount = terms.length;
+
+    for(i= 0; i < termAmount; i++){
         
         if (terms[i].split("x^").length == 2){
 
@@ -46,47 +114,4 @@ function derivatePolynomial(polynomial) {
 
      }
 
-     ordered = [symbols, coeficients, exponents];
-
-    //Borramos todo
-    polynomial = "";
-    positiveTerms = [];
-    terms = [];
-    symbols = [];
-
-
-     return ordered;
-  }
-
-  function separateTerms(polynomialFunction){
-
-    //Expresiones separadas por "+"
-    positiveTerms = polynomialFunction.split("+");
-
-    //Evaluamos cada expresión separada por "+", para separarla por un "-" si lo tiene
-    for (var i = 0; i < positiveTerms.length; i++) {
-        
-        //Expresiones separadas por "-"
-        actualExpresion = positiveTerms[i].split("-");
-
-        for (var u = 0; u < actualExpresion.length; u++) {
-            
-            //Verificamos que no se haya entregado un término vacío, de un polinomio comenzando con "-"
-            if(actualExpresion[u] != ""){
-                
-                //Guardamos los términos separados
-                terms.push(actualExpresion[u]);
-
-                //Información de si el término es positivo o negativo
-                if(u == 0){
-                    //Si u=0 es porque el término fue separado antes por "+"
-                    symbols.push(1);
-                } else {
-                    //Sino, apenas fue separado por "-"
-                    symbols.push(-1);
-                }
-            }
-         }
-     }
 }
-
