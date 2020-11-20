@@ -1,78 +1,92 @@
 
 //Polinomio digitado por el usuario
-let polyFunction;
+let polynomial;
 
 //Expresiones del polinomio ingresado separadas por "+"
-let polyPositiveTerms = [];
-//Expresiones separadas por "+" y por "-"
-let polyTerms = [];
+let positiveTerms = [];
 
-//Símbolos de cada término en orden.
+//Términos en orden, separados por "+" y "-"
+let terms = [];
+//Información de cada término en orden
 let symbols = [];
+let exponents = [];
+let coeficients = [];
 
-function derivatePolynomial(polyFunction) {
+//Cantidad de términos
+let termAmount;
+
+//Información ordenada con symbols, coeficients & exponents
+let ordered = [];
+
+function derivatePolynomial(polynomial) {
     
-    //Expresiones separadas por "+"
-    polyPositiveTerms = polyFunction.split("+");
+    //Separar cada término y obtener su signo (+ o -)
+    separateTerms(polynomial);
 
-    //Evaluamos cada expresión separada por "+", para separarla por un "-" si lo tiene
-    for (var i = 0; i < polyPositiveTerms.length; i++) {
+    termAmount = terms.length;
 
-        //Expresiones separadas por "-"
-        actualExpresion = polyPositiveTerms[i].split("-");
+     for(i= 0; i < termAmount; i++){
+        
+        if (terms[i].split("x^").length == 2){
 
-        for (var u = 0; u < actualExpresion.length; u++) {
+            exponents.push(parseInt(terms[i].split("x^")[1]));
+            coeficients.push(parseInt(terms[i].split("x^")[0]));
+
+        } else if (terms[i].split("x").length == 2){
             
-            //Expresiones separadas por "-" y "+"
-            polyTerms.push(actualExpresion[u]);
-
-            //Guardar la información de si el término es positivo o negativo
-            if(u == 0){
-                symbols.push("+");
-            } else {
-                symbols.push("-");
-            }
-
-         }
+            coeficients.push(parseInt(terms[i].split("x")[0]));
+            exponents.push(1);
+        
+        } else {
+        
+            coeficients.push(parseInt(terms[i].split("x^")[0]));
+            exponents.push(0);
+        
+        }
 
      }
 
-     console.log(polyTerms);
-     console.log(symbols);
+     ordered = [symbols, coeficients, exponents];
 
     //Borramos todo
-    polyFunction = "";
-    polyPositiveTerms = [];
-    polyTerms = [];
+    polynomial = "";
+    positiveTerms = [];
+    terms = [];
     symbols = [];
 
+
+     return ordered;
   }
 
-  function organizeTerms(polyFunction){
+  function separateTerms(polynomialFunction){
 
     //Expresiones separadas por "+"
-    polyPositiveTerms = polyFunction.split("+");
+    positiveTerms = polynomialFunction.split("+");
 
     //Evaluamos cada expresión separada por "+", para separarla por un "-" si lo tiene
-    for (var i = 0; i < polyPositiveTerms.length; i++) {
-
+    for (var i = 0; i < positiveTerms.length; i++) {
+        
         //Expresiones separadas por "-"
-        actualExpresion = polyPositiveTerms[i].split("-");
+        actualExpresion = positiveTerms[i].split("-");
 
         for (var u = 0; u < actualExpresion.length; u++) {
             
-            //Expresiones separadas por "-" y "+"
-            polyTerms.push(actualExpresion[u]);
+            //Verificamos que no se haya entregado un término vacío, de un polinomio comenzando con "-"
+            if(actualExpresion[u] != ""){
+                
+                //Guardamos los términos separados
+                terms.push(actualExpresion[u]);
 
-            //Guardar la información de si el término es positivo o negativo
-            if(u == 0){
-                symbols.push("+");
-            } else {
-                symbols.push("-");
+                //Información de si el término es positivo o negativo
+                if(u == 0){
+                    //Si u=0 es porque el término fue separado antes por "+"
+                    symbols.push(1);
+                } else {
+                    //Sino, apenas fue separado por "-"
+                    symbols.push(-1);
+                }
             }
-
          }
-
      }
+}
 
-  }
