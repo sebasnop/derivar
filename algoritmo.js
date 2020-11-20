@@ -45,6 +45,11 @@ function derivatePolynomial(polynomial) {
 
      }
 
+    //Borramos todo
+    exponents = [];
+    terms = [];
+    coeficients = [];
+
     return derivedPolynomial;
 
   }
