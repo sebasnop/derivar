@@ -1,0 +1,19 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FCFCFC;
+    margin: 150px;
+}
+
+h2{
+    font-size: 15pt;
+    font-weight: 300;
+}
+
+h3{
+    font-size: 12pt;
+    font-weight: 200;
+}
+
+.indicaciones{
+    text-align: center;
+}
