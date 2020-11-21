@@ -9,11 +9,13 @@ let exponents = [];
 let coeficients = [];
 
 //Arreglo de información del polinomio derivado
-let derivedPolynomial = "Tu polinomio es ";
+let derivedPolynomial = "";
 
 //Cantidad de términos
 let termAmount;
 
+console.log("DERIVA TU POLINOMIO CON:");
+console.log("derivatePolynomial(a+bx+cx^2+...+kx^n)");
 
 function derivatePolynomial(polynomial) {
     
