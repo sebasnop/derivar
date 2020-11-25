@@ -162,9 +162,9 @@ function derivateQuotient(n, d){
     const nDerived = derivatePolynomial(n);
     const dDerived = derivatePolynomial(d);
 
-    const nFinal1 = "[" + multiplyPolynomials(nDerived, d) + "]";
-    const nFinal2 = "[" + multiplyPolynomials(dDerived, n) + "]";
-    const nFinal = nFinal1 + "-" + nFinal2;
+    const nFinal1 = multiplyPolynomials(nDerived, d);
+    const nFinal2 = multiplyPolynomials(dDerived, n);
+    const nFinal = nFinal1 + "+" + multiplyPolynomials(nFinal2, "-1");
 
     //Cociente derivado
     const derivedQuotient = nFinal + " / " + dFinal;
